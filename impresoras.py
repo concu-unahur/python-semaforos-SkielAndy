@@ -3,7 +3,7 @@ import time
 import logging
 
 logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
-
+semaphore = threading.Semaphore(3)
 class Impresora:
   def __init__(self, numero):
     self.numero = numero
@@ -21,19 +21,49 @@ class Computadora(threading.Thread):
   def run(self):
     # Tomo una impresora de la lista.
     # (Esta línea va a fallar si no quedan impresoras, agregar sincronización para que no pase)
+    semaphore.acquire()
     impresora = impresorasDisponibles.pop()
     # La utilizo.
     impresora.imprimir(self.texto)
-    # La vuelvo a dejar en la lista para que la use otro.
+    # La vuelvo a dejar en la lista para que la use otro.  
     impresorasDisponibles.append(impresora)
+    semaphore.release()
 
+cantidadMaxima=3
 impresorasDisponibles = []
+
 for i in range(3):
-  # Creo tres impresoras y las meto en la lista. Se puede cambiar el 3 por otro número para hacer pruebas.
+  # Creo tres impresoras y las meto en la lista. Se puede cambiar el 3 por otro número para hacer pruebas. 
   impresorasDisponibles.append(Impresora(i))
 
 Computadora('hola').start()
-Computadora('qué tal').start()
+Computadora('que tal').start()
 Computadora('todo bien').start()
 Computadora('esta explota').start()
-Computadora('esta también').start()
+Computadora('esta tambien').start()
+Computadora('hola').start()
+Computadora('que tal').start()
+Computadora('todo bien').start()
+Computadora('esta explota').start()
+Computadora('esta tambien').start()
+Computadora('hola').start()
+Computadora('que tal').start()
+Computadora('todo bien').start()
+Computadora('esta explota').start()
+Computadora('esta tambien').start()
+
+Computadora('hola').start()
+Computadora('que tal').start()
+Computadora('todo bien').start()
+Computadora('esta explota').start()
+Computadora('esta tambien').start()
+Computadora('hola').start()
+Computadora('que tal').start()
+Computadora('todo bien').start()
+Computadora('esta explota').start()
+Computadora('esta tambien').start()
+Computadora('hola').start()
+Computadora('que tal').start()
+Computadora('todo bien').start()
+Computadora('esta explota').start()
+Computadora('esta tambien').start()
